@@ -1,5 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
-require("@nomicfoundation/hardhat-verify"); // Add this line
+require("@nomicfoundation/hardhat-verify");
 require("dotenv").config();
 
 module.exports = {
@@ -18,10 +18,16 @@ module.exports = {
       accounts: [process.env.PRIVATE_KEY],
       chainId: 84532,
     },
+    baseMainnet: {
+      url: process.env.BASE_MAINNET_RPC_URL,
+      accounts: [process.env.PRIVATE_KEY],
+      chainId: 8453, // Base Mainnet chain ID
+    },
   },
   etherscan: {
     apiKey: {
-      baseTestnet: process.env.BASESCAN_API_KEY, // Add to .env
+      baseTestnet: process.env.BASESCAN_API_KEY,
+      baseMainnet: process.env.BASESCAN_API_KEY, // Reuse same key
     },
     customChains: [
       {
@@ -32,9 +38,14 @@ module.exports = {
           browserURL: "https://sepolia.basescan.org",
         },
       },
+      {
+        network: "baseMainnet",
+        chainId: 8453,
+        urls: {
+          apiURL: "https://api.basescan.org/api",
+          browserURL: "https://basescan.org",
+        },
+      },
     ],
-  },
-  sourcify: {
-    enabled: true, // Enable Sourcify verification
   },
 };
